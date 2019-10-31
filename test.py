@@ -13,7 +13,7 @@ conv = nn.Conv2d(3, 1, 3, 2, 1)
 output1 = conv(input)
 print(output1.shape)
 conv_transpose = nn.ConvTranspose2d(1, 3, 3, 2, 1, get_outputpadding(14, 28, 3, 2, 1))
-output2 = conv_transpose(output1).permute(0, 2, 3, 1)
+output2 = conv_transpose(output1).permute(0, 3, 2, 1)
 print(output2.shape)
 output2 = output2.detach().numpy()[0]
 image = pimg.fromarray(output2, "RGB")
