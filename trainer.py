@@ -33,6 +33,7 @@ class Trainer:
     def train(self):
         epoch = 1
         loss_new = 100000000
+        alpha = 0.3
         while True:
             for i, (image, label) in enumerate(self.train_data):
                 image = image.to(self.device)
@@ -41,7 +42,7 @@ class Trainer:
                 miu, log_sigma, output = self.net(image, distribution)
                 encoder_loss = torch.mean((-torch.log(log_sigma ** 2) + miu ** 2 + log_sigma ** 2 - 1) * 0.5)
                 decoder_loss = self.loss_fn(output, image)
-                loss = encoder_loss + decoder_loss
+                loss = alpha * encoder_loss + (1 - alpha) * decoder_loss
                 self.optimizer.zero_grad()
                 loss.backward()
                 self.optimizer.step()
@@ -59,6 +60,7 @@ class Trainer:
 
 
 if __name__ == '__main__':
-    trainer = Trainer("models/", "net_sum_pth", "datasets/", "images")
-    # trainer = Trainer("models/", "net_mean_pth", "datasets/", "images_mean")
+    # trainer = Trainer("models/", "net_sum.pth", "datasets/", "images")
+    # trainer = Trainer("models/", "net_mean.pth", "datasets/", "images_mean")
+    trainer = Trainer("models/", "net_sum_0.3.pth", "datasets/", r"C:\Users\Administrator\Desktop\pics")
     trainer.train()
