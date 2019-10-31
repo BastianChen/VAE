@@ -80,3 +80,7 @@ if __name__ == '__main__':
     distribution = torch.randn(128)
     miu, log_sigma, output = net(input, distribution)
     print(output.shape)
+    encoder_p = sum(p.numel() for p in net.encoder.parameters())
+    decoder_p = sum(p.numel() for p in net.decoder.parameters())
+    print(encoder_p)
+    print(decoder_p)
